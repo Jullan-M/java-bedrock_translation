@@ -51,6 +51,25 @@ def corresponding_keys(dict1: dict, dict2: dict):
             corr[k1] = list(dict2.keys())[i]
     return corr
 
+def check_corresponding_integrity(dictionary: dict, corr: list):
+    dup_num = 0
+    for kc in corr:
+        num = 0
+        duplicates = []
+        value = dictionary[kc]
+        for k in dictionary:
+            if dictionary[k] == value and kc != k:
+                num += 1
+                duplicates.append(k)
+        
+        if num > 0:
+            print(f"Key: {kc}\t with {num} duplicates:")
+            print(duplicates)
+            print()
+            dup_num +=1
+    print("Total keys with same value:", dup_num)
+
+
 def translate_corr_entries(src_json: str, corr_json: str, temp_file: str =""):
     src = json2dict(src_json)
     corr = json2dict(corr_json)
@@ -61,8 +80,9 @@ def translate_corr_entries(src_json: str, corr_json: str, temp_file: str =""):
             translated[kc] = src[corr[kc]]
 
     dict2lang(translated, f"{src_json.replace('.json', '')}_translated.lang")
+check_corresponding_integrity(json2dict("en_us.json"), list(json2dict("en-bed-java_corresponding_keys.json").values()))
 
-translate_corr_entries("se_no.json", "en-bed-java_corresponding_keys.json", temp_file="en_US_template.lang")
+#translate_corr_entries("se_no.json", "en-bed-java_corresponding_keys.json", temp_file="en_US_template.lang")
 
 """
 en_bed = json2dict("en_US_jsonized.json")
