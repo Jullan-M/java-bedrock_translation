@@ -87,11 +87,11 @@ def dict2file(dictionary: dict, out_file: str):
 
 
 def lcs(x: str, y: str, print_out: bool = False): 
-    # find the length of the strings 
+    # Find the length of the strings 
     m = len(x) 
     n = len(y) 
   
-    # declaring the array for storing the dp values 
+    # Declaring the array for storing the dp values 
     ls = [[None]*(n + 1) for i in range(m + 1)] 
   
     # Following steps build L[m + 1][n + 1] in bottom up fashion 
