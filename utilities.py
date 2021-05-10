@@ -27,7 +27,6 @@ def lang_parser(lang_txt: str):
         strip = line.strip()
         if (not strip) or strip[0] == "#" or strip[1] == "#":
             continue
-
         key, dirty_val = line.split("=", maxsplit=1)
         val = dirty_val.split("#", 1)[0].rstrip()
         lang_dic[key] = val
@@ -46,10 +45,30 @@ def dict2json(dictionary: dict, out_file: str):
     with open(out_file, "w", encoding="utf-8") as js:
         js.write(json.dumps(dictionary, indent="\t", sort_keys=True))
 
-def dict2lang(dictionary: dict, out_file: str):
+def dict2lang(dictionary: dict, out_file: str, template: str = ""):
     # Converts a local Python dictionary to a .lang with the filename out_file
     with open(out_file, "w", encoding="utf-8") as lg:
-        lg.write("\n".join(["=".join([k, dictionary[k]]) for k in dictionary]))
+        if template:
+            # If there's a template, keep comments and empty lines
+            with open(template, "r", encoding="utf-8") as tp:
+                for line in tp.readlines():
+                    if line[0] == "#" or not ("=" in line):
+                        # Write line as is if it is not an actual entry
+                        lg.write(line)
+                    else:
+                        k = line.split("=", maxsplit=1)[0]
+
+                        # Find corresponding value in dictionary. If it doesn't exist then it is an empty string
+                        v = dictionary[k] if k in dictionary else ""
+                        if "#" in line:
+                            # Preserve comments after value with 1 tabulation
+                            comment = line.split("#", maxsplit=1)[1]
+                            lg.write(f"{k}={v}\t#{comment}") # NOTE: Comments include \n
+                        else:
+                            lg.write(f"{k}={v}\n")
+        else:
+            # If no template, dump all pairs in dictionary into simple key=value format with no specific ordering
+            lg.write("\n".join(["=".join([k, dictionary[k]]) for k in dictionary]))
 
 def lang2json(lang_file: str):
     # Converts a .lang to a .json of the same name

@@ -1,4 +1,4 @@
-from excel_appender import Ranked_Translations, methods
+from excel_tools import Ranked_Translations, methods
 from translator import Locale_Translation
 from utilities import dict2json
 
