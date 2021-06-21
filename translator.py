@@ -3,7 +3,6 @@ from utilities import *
 from typing import Union
 from tqdm import tqdm
 
-LOCALE_PATH = "Locales"
 CORR_KEYS_PATH = "Corr"
 
 class Locale(dict):
@@ -116,15 +115,24 @@ class Locale_Pair:
         return translated
 
 class Locale_Translation:
-    def __init__(self, locale_pair_files: list, target_locale_file: str):
+    def __init__(self, locale_pair_files: list, target_locale_file: str, LOCALE_PATH: str = "Locales"):
+        self.LOCALE_PATH = LOCALE_PATH
+        # Convert locale files to dicts
+        self.locale_pairs = [[file2dict(os.path.join(self.LOCALE_PATH, loc_L))
+        , file2dict(os.path.join(self.LOCALE_PATH, loc_R))] for loc_L, loc_R in locale_pair_files]
+        
+        # Extensions
         self.ext1 = locale_pair_files[0][0].split(".")[-1].lower()
         self.ext2 = locale_pair_files[0][1].split(".")[-1].lower()
 
+        # Target file to be used to find translations
         self.target = file2dict( os.path.join(LOCALE_PATH, target_locale_file) )
         self.unused_keys = set(self.target)
-        self.pairs = [Locale_Pair( file2dict(os.path.join(LOCALE_PATH, loc_L)), 
-                            file2dict(os.path.join(LOCALE_PATH, loc_R)), 
-                            self.target.keys() ) for loc_L, loc_R in locale_pair_files]
+        
+    def find_corresponding_keys(self, existing_keys: list = []):
+        # Use keys in target as existing keys if not defined already
+        existing_keys = self.target.keys() if not existing_keys else existing_keys
+        self.pairs = [Locale_Pair(loc_L, loc_R, existing_keys) for loc_L, loc_R in self.locale_pairs]
 
     def rank_and_generate(self) -> dict:
         translation = {}
@@ -157,7 +165,7 @@ class Locale_Translation:
                         
 
 
-def generate_tranlation(locale_pair_files: list, dest_locale_file: str):
+def generate_tranlation(locale_pair_files: list, dest_locale_file: str, LOCALE_PATH: str = "Locales"):
     ext1 = locale_pair_files[0][0].split(".")[-1].lower()
     ext2 = locale_pair_files[0][1].split(".")[-1].lower()
     

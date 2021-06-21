@@ -12,7 +12,7 @@ def lang_parser(lang_txt: str):
     Parses the plain text of a Minecraft .lang file of the form
 
     ## Comment
-    key.name=here is value # Another comment goes here
+    key.name=here is value  # Another comment goes here
 
     to a Python dictionary of the form
     {
@@ -20,16 +20,24 @@ def lang_parser(lang_txt: str):
     }
     Note: all comments in the .lang file will be stripped out in the result dict.
     """
-    # 
-    # This excludes any comments¨
+    # NOTE: Comments cannot be preserved in a dictionary file. 
+    #       Pass the dictionary file along with the template to dict2lang to get back the comments.
     lang_dic = {}
+    count = 0
     for line in lang_txt:
-        strip = line.strip()
-        if (not strip) or strip[0] == "#" or strip[1] == "#":
-            continue
-        key, dirty_val = line.split("=", maxsplit=1)
-        val = dirty_val.split("#", 1)[0].rstrip()
-        lang_dic[key] = val
+        count += 1
+
+        try:
+            strip = line.strip()
+            if (not strip) or strip[0] == "#" or strip[1] == "#":
+                continue
+            key, dirty_val = line.split("=", maxsplit=1)
+            val = dirty_val.split("#", 1)[0].rstrip()
+            lang_dic[key] = val
+        except (ValueError,IndexError) as er:
+            print(er)
+            print(f"Format error in lang file, Line {count}:\n{line}")
+        
     return lang_dic
 
 def lang2dict(filename: str):
@@ -49,19 +57,19 @@ def dict2lang(dictionary: dict, out_file: str, template: str = ""):
     # Converts a local Python dictionary to a .lang with the filename out_file
     with open(out_file, "w", encoding="utf-8") as lg:
         if template:
-            # If there's a template, keep comments and empty lines
+            # If there's a template: preserve order, comments and empty lines in template
             with open(template, "r", encoding="utf-8") as tp:
                 for line in tp.readlines():
                     if line[0] == "#" or not ("=" in line):
                         # Write line as is if it is not an actual entry
                         lg.write(line)
                     else:
-                        k = line.split("=", maxsplit=1)[0]
+                        k = line.split("=", maxsplit=1)[0] # key
 
                         # Find corresponding value in dictionary. If it doesn't exist then it is an empty string
                         v = dictionary[k] if k in dictionary else ""
                         if "#" in line:
-                            # Preserve comments after value with 1 tabulation
+                            # Preserve comments after value with one (1) tabulation
                             comment = line.split("#", maxsplit=1)[1]
                             lg.write(f"{k}={v}\t#{comment}") # NOTE: Comments include \n
                         else:
@@ -105,7 +113,8 @@ def dict2file(dictionary: dict, out_file: str):
 
 
 
-def lcs(x: str, y: str, print_out: bool = False): 
+def lcs(x: str, y: str, print_out: bool = False):
+    # LONGEST COMMON SUBSTRING
     # Find the length of the strings 
     m = len(x) 
     n = len(y) 
