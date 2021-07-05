@@ -1,10 +1,6 @@
 import requests
 import json
 
-dicts = {"fin": "gtfinsme", "nob": "gtnobsme"}
-
-backend = "https://satni.uit.no/newsatni/"
-
 headers = {
     'Content-Type': 'application/json',
 }
@@ -71,13 +67,13 @@ word_query = {
 
 
 
-def translate(words, src_lang):
-    word_query["variables"]["wantedDicts"] = dicts[src_lang]
+def translate(words, dictionary):
+    word_query["variables"]["wantedDicts"] = [dictionary]
 
     trans_words = []
     for w in words:
         word_query["variables"]["lemma"] = w.lower()
-        response = requests.post(backend, headers=headers, data=json.dumps(word_query))
+        response = requests.get("https://satni.uit.no/newsatni/", headers=headers, data=json.dumps(word_query))
         w_article = response.json()
         if w_article['data']['dictEntryList']:
             tw = w_article['data']['dictEntryList'][0]['translationGroups'][0]['translationLemmas']['edges'][0]['node']['lemma']
@@ -86,12 +82,4 @@ def translate(words, src_lang):
     
 words = ["Hanki", "Ilma", "Kaunis", "Korkeus", "Ilmainen", "Nimi", "Siemen", "Kesto", "Poista", "Vihreä", "Pilkku"]
 
-print(translate(words, "fin"))
-
-"""
-word_query["variables"]["wantedDicts"] = dicts["fin"]
-word_query["variables"]["lemma"] = "tyyli"
-response = requests.post('https://satni.uit.no/newsatni/', headers=headers, data=json.dumps(word_query))
-w_article = response.json()
-print(w_article['data']['dictEntryList'])
-"""
+print(translate(words, "gtfinsme"))

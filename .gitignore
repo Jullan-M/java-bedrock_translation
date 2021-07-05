@@ -1,12 +1,8 @@
-/en-bed-java_corresponding_keys.json
-/en_us.json
-/en_US.lang
-/en_US_jsonized.json
-/en_US_template.lang
-/se_no.json
-/se_no.lang
-/se_no_condensed.lang
 *.pkl
 *.h5
 *.png
 *.xlsx
+*.json
+*.lang
+*.txt
+*.pyc

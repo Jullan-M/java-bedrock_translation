@@ -1,5 +1,6 @@
 import os
 import json
+import re
 
 def json2dict(json_file: str):
     # Converts a .json to a local Python dictionary
@@ -154,3 +155,13 @@ def lcs(x: str, y: str, print_out: bool = False):
     
     # ls[m][n] contains the length of LCS of x[0..n-1] & y[0..m-1]
     return ls[m][n]
+
+def word_replace(pat: str, repl: str, string: str) -> str:
+    # Replaces regex matched words in a string while preserving capitalization of the word.
+    def repl_keep_case(match):
+        g = match.group()
+        if g.islower(): return repl.lower()
+        if g.istitle(): return repl.title()
+        if g.isupper(): return repl.upper()
+        return repl
+    return re.sub(r"\b%s\b" % pat, repl_keep_case, string, flags=re.I)
