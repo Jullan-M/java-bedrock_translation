@@ -6,7 +6,7 @@ async def fetch(session, term, dictname, src_lang, dest_lang) -> dict:
     async with session.get(url) as resp:
         #### REMOVE ME '''
         if resp.status == 500:
-            print(f"{term}")            
+            # print(f"{term}")            
             return {}
         ####'''
         assert (resp.status == 200), f"response status code {resp.status} for '{term}'"

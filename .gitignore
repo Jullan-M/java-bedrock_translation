@@ -2,7 +2,6 @@
 *.h5
 *.png
 *.xlsx
-*.json
-*.lang
 *.txt
 *.pyc
+gt*.json

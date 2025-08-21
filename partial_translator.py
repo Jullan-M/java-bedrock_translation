@@ -52,11 +52,14 @@ def partial_translate(src_dict: dict, dc: dict, src_lang: str = "en", min_len: i
     return pt_trans
 
 from utilities import json2dict, lang2dict
+FIN_ABC = "abdefghijklmnoprstuvyäö"
 NOB_ABC = "abcdefghijklmnoprstuvwyzæøå"
-l_dicts = [json2dict(f"Articles/gtnobsme_{l}.json") for l in NOB_ABC]
-nobsme = merge_dicts(l_dicts)
+l_dicts = [json2dict(f"Articles/gtfinsme_{l}.json") for l in FIN_ABC]
+#l_dicts = [json2dict(f"Articles/gtnobsme_{l}.json") for l in NOB_ABC]
+finsme = merge_dicts(l_dicts)
+#nobsme = merge_dicts(l_dicts)
 en_loc = json2dict("basic.json")
 
-pt = partial_translate(en_loc, nobsme, src_lang="nob")
+pt = partial_translate(en_loc, finsme, src_lang="fin")
 for k, v in list(pt.items())[:60]:
     print(f"{v}\n")

@@ -1,5 +1,5 @@
 from excel_tools import Ranked_Translations, methods
-from translator import Locale_Translation
+from comparative_translator import Locale_Translation
 from utilities import dict2json
 
 if __name__ == "__main__":
