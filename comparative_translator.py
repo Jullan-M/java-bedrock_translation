@@ -1,7 +1,9 @@
 import os
-from utilities import *
 from typing import Union
+
 from tqdm import tqdm
+
+from utilities import *
 
 CORR_KEYS_PATH = "Corr"
 
@@ -13,7 +15,7 @@ class Locale(dict):
 
     def values_with_duplicate_keys(self, corr: list = []) -> dict:
         """
-        Makes a dict of values with multiple duplicate keys. 
+        Makes a dict of values with multiple duplicate keys.
         If corr is a nonempty list of keys, it will only iterate through those keys instead.
         dict format:
         "value": ["key1", "key2", "key3"]
@@ -51,10 +53,15 @@ class Locale(dict):
 
 
 class Locale_Pair:
-    def __init__(self, loc_L: Union[dict, Locale], loc_R: Union[dict, Locale], existing_keys: list = []):
+    def __init__(
+        self,
+        loc_L: Union[dict, Locale],
+        loc_R: Union[dict, Locale],
+        existing_keys: list = [],
+    ):
         self.loc_L = loc_L if type(loc_L) == Locale else Locale(loc_L)
         self.loc_R = loc_R if type(loc_R) == Locale else Locale(loc_R)
-        #self.count = 0
+        # self.count = 0
         self.corresponding = self.corresponding_keys(existing_keys)
 
     def corresponding_keys(self, existing_keys: list) -> dict:
@@ -98,17 +105,24 @@ class Locale_Pair:
                     corr[k1] = {"key": k2, "rank": "EQUAL_KEYS"}
 
                 # Similar values based on longest common subsequences
-                elif len(v1) > 15 and len(v2) > 15 and lcs(v1, v2, False) >= 0.6*(len(v1)+len(v2))/2:
+                """
+                elif (
+                    len(v1) > 15
+                    and len(v2) > 15
+                    and lcs(v1, v2, False) >= 0.6 * (len(v1) + len(v2)) / 2
+                ):
                     print(v1)
                     print(v2)
                     corr[k1] = {"key": k2, "rank": "SIMILAR_LCS"}
+                """
 
         return corr
 
-    def translate_corr_entries(self, localization: Union[dict, Locale], temp_file: str = "") -> dict:
+    def translate_corr_entries(
+        self, localization: Union[dict, Locale], temp_file: str = ""
+    ) -> dict:
         # Translate existing locale an existing localization on the LEFT format to RIGHT format based on corresponding keys
-        loc = localization if type(
-            localization) == Locale else Locale(localization)
+        loc = localization if type(localization) == Locale else Locale(localization)
         translated = lang2dict(temp_file) if temp_file else {}
         for kc in self.corresponding:
             if self.corresponding[kc]["key"] in loc:
@@ -117,11 +131,21 @@ class Locale_Pair:
 
 
 class Locale_Translation:
-    def __init__(self, locale_pair_files: list, target_locale_file: str, LOCALE_PATH: str = "Locales"):
+    def __init__(
+        self,
+        locale_pair_files: list,
+        target_locale_file: str,
+        LOCALE_PATH: str = "Locales",
+    ):
         self.LOCALE_PATH = LOCALE_PATH
         # Convert locale files to dicts
-        self.locale_pairs = [[file2dict(os.path.join(self.LOCALE_PATH, loc_L)), file2dict(
-            os.path.join(self.LOCALE_PATH, loc_R))] for loc_L, loc_R in locale_pair_files]
+        self.locale_pairs = [
+            [
+                file2dict(os.path.join(self.LOCALE_PATH, loc_L)),
+                file2dict(os.path.join(self.LOCALE_PATH, loc_R)),
+            ]
+            for loc_L, loc_R in locale_pair_files
+        ]
 
         # Extensions
         self.ext1 = locale_pair_files[0][0].split(".")[-1].lower()
@@ -132,10 +156,16 @@ class Locale_Translation:
         self.unused_keys = set(self.target)
 
     def find_corresponding_keys(self, existing_keys: list = []):
-        # Use keys in target as existing keys if not defined already
+        # Use intersection between keys in target and this locale as existing keys if not defined already
+        print("Finding corresponding keys.")
         existing_keys = self.target.keys() if not existing_keys else existing_keys
-        self.pairs = [Locale_Pair(loc_L, loc_R, existing_keys)
-                      for loc_L, loc_R in self.locale_pairs]
+
+        self.pairs = [
+            Locale_Pair(
+                loc_L, loc_R, set(existing_keys).intersection(set(loc_R.keys()))
+            )
+            for loc_L, loc_R in self.locale_pairs
+        ]
 
     def rank_and_generate(self) -> dict:
         translation = {}
@@ -154,20 +184,27 @@ class Locale_Translation:
                     # Compare to other pairs (if they contain the key)
                     for other in self.pairs:
                         if pair != other and key in other.corresponding.keys():
-                            if other.loc_L[key].lower() == other.loc_R[corr_key].lower():
+                            if (
+                                other.loc_L[key].lower()
+                                == other.loc_R[corr_key].lower()
+                            ):
                                 key_quality += 1
                                 # print(key_quality, pair.loc_L[key])
 
                     rank = pair.corresponding[key]["rank"]
-                    translation[key] = {"value": self.target[corr_key],
-                                        "rank": rank,
-                                        "quality": key_quality}
+                    translation[key] = {
+                        "value": self.target[corr_key],
+                        "rank": rank,
+                        "quality": key_quality,
+                    }
                     # Break out of pair-loop; we've already determined the translation and its quality
                     break
         return translation
 
 
-def generate_tranlation(locale_pair_files: list, dest_locale_file: str, LOCALE_PATH: str = "Locales"):
+def generate_tranlation(
+    locale_pair_files: list, dest_locale_file: str, LOCALE_PATH: str = "Locales"
+):
     ext1 = locale_pair_files[0][0].split(".")[-1].lower()
     ext2 = locale_pair_files[0][1].split(".")[-1].lower()
 
@@ -178,7 +215,8 @@ def generate_tranlation(locale_pair_files: list, dest_locale_file: str, LOCALE_P
         loc_pair = Locale_Pair(
             file2dict(os.path.join(LOCALE_PATH, loc_L)),
             file2dict(os.path.join(LOCALE_PATH, loc_R)),
-            dest_locale.keys())
+            dest_locale.keys(),
+        )
         loc_trans = loc_pair.translate_corr_entries(dest_locale)
         count = 0
         for k in loc_pair.corresponding:
@@ -192,11 +230,11 @@ def generate_tranlation(locale_pair_files: list, dest_locale_file: str, LOCALE_P
     return Locale(translation)
 
 
-'''
+"""
 loc_par = [["en_US.lang", "en_us.json"], ["fi_FI.lang", "fi_fi.json"], ["nb_NO.lang", "no_no.json"]]
 target_loc = "se_no.json"
 
 lt = Locale_Translation(loc_par, target_loc)
 generated = lt.rank_and_generate()
 dict2json(generated, "test.json")
-'''
+"""
