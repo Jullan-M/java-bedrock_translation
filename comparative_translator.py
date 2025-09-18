@@ -92,20 +92,21 @@ class Locale_Pair:
                     break
 
                 # The two preceding methods are pretty reliable, so break out of those
-
+                """
                 # Equal values when stripped out of ignore_chars
                 elif len(v1) > 5 and len(v2) > 5:
                     strip1 = v1.translate(ignore_chars)
                     strip2 = v2.translate(ignore_chars)
                     if strip1.lower() == strip2.lower():
                         corr[k1] = {"key": k2, "rank": "EQUAL_STRIPPED"}
-
+                
+                
                 # Equal keys
                 elif k1 == k2:
                     corr[k1] = {"key": k2, "rank": "EQUAL_KEYS"}
 
                 # Similar values based on longest common subsequences
-                """
+                
                 elif (
                     len(v1) > 15
                     and len(v2) > 15
@@ -153,7 +154,7 @@ class Locale_Translation:
 
         # Target file to be used to find translations
         self.target = file2dict(os.path.join(LOCALE_PATH, target_locale_file))
-        self.unused_keys = set(self.target)
+        self.unused_keys = set(self.target.keys())
 
     def find_corresponding_keys(self, existing_keys: list = []):
         # Use intersection between keys in target and this locale as existing keys if not defined already

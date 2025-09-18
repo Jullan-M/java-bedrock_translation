@@ -13,7 +13,9 @@ methods = {
     "EQUAL_LOWERCASE": "008000",
     "EQUAL_STRIPPED": "008080",
     "EQUAL_KEYS": "FF00FF",
+    "FROM_OLD_LANG": "00FF00",
     "SIMILAR_LCS": "080000",
+    "MACHINE_TRANSLATED": "FF0000",
 }
 
 
@@ -40,15 +42,36 @@ class Ranked_Translations:
         c.fill = pf
         return c
 
-    def to_excel(self, filename):
-        for row in self.rts:
-            self.ws.append(
-                [
-                    row,
-                    self.rts[row]["value"],
-                    self.rank_cells(self.rts[row]["rank"], self.rts[row]["quality"]),
-                ]
-            )
+    def to_excel(self, filename, template: str = ""):
+        if template:
+            with open(template, "r", encoding="utf-8") as tp:
+                for line in tp:
+                    strip = line.strip()
+                    if strip and strip[0] != "#" and strip[1] != "#":
+                        k = line.split("=", maxsplit=1)[0]
+                        if k in self.rts.keys():
+                            self.ws.append(
+                                [
+                                    k,
+                                    self.rts[k]["value"],
+                                    self.rank_cells(
+                                        self.rts[k]["rank"], self.rts[k]["quality"]
+                                    ),
+                                ]
+                            )
+                        else:
+                            self.ws.append([k, ""])
+        else:
+            for row in self.rts:
+                self.ws.append(
+                    [
+                        row,
+                        self.rts[row]["value"],
+                        self.rank_cells(
+                            self.rts[row]["rank"], self.rts[row]["quality"]
+                        ),
+                    ]
+                )
 
         self.workbook.save(filename=filename)
 
@@ -65,7 +88,7 @@ def excel2dict(filename: str):
     return dc
 
 
-def dict2excel(dictionary: str, out_file: str, template: str = ""):
+def dict2excel(dictionary: dict, out_file: str, template: str = ""):
     wb = Workbook()
     sh = wb.active
     if template:

@@ -1738,7 +1738,7 @@ realmsCreateScreen.purchaseConfirmation.title=Oastit realma?
 realmsCreateScreen.purchaseConfirmation.create.message=Háliidat go ráhkadit realma?
 realmsCreateScreen.purchaseConfirmation.extend.message=Háliidat go guhkidit realma diŋgojumi?
 realmsCreateScreen.purchaseConfirmation.renew.message=Háliidat go ođasmahttit realma diŋgojumi?
-realmsCreateScreen.purchaseConfirmation.continue
+realmsCreateScreen.purchaseConfirmation.continue=Joatkke
 realmsCreateScreen.purchaseConfirmation.cancel=Gidde
 realmsCreateScreen.title=Ráhkat realmma
 realmsCreateScreen.nameHeader=Realmma namma
@@ -1827,7 +1827,7 @@ localWorld.no_local_world_label=Don it leat hutkan máilmmiid vuos.
 localWorld.no_local_worlds_present=Jávke go du máilmmit? Geahččal rievdadit vurkenbáikki:
 thirdPartyWorld.comingSoon=Boahtá fargga!
 thirdPartyWorld.Featured=Evttohuvvon serverat
-thirdPartyWorld.Additional
+thirdPartyWorld.Additional=Lassi serverat
 thirdPartyWorld.featuredComingSoon=Boahtá fargga!
 thirdPartyWorld.notConnected=Mii eat sáhttán čatnat oktavuođa serverii juste dál, muhto geahččalit fas fargga.
 thirdPartyWorld.playNow=Speala dál!
@@ -2033,7 +2033,7 @@ dayOneExperience.world_picker_skip=Garvve dán háve
 death.attack.anvil=%1$s njuvduii eatnamii gahččii stáđi dihte
 death.attack.arrow=%2$s bážii %1$s
 death.attack.arrow.item=%2$s geavahii %3$s báhčit %1$s spealli
-death.attack.bullet
+death.attack.bullet==%1$s báhččoi %2$s:s
 death.attack.cactus=%1$s čuggui jámas
 death.attack.cactus.player=%1$s váccii káktusa njeaiga go geahččalii viehkat eret %2$s
 death.attack.drown=%1$s heavvanii
@@ -2064,12 +2064,12 @@ death.attack.onFire.player=%1$s bulii jámas dan botta go doarui %2$s
 death.attack.outOfWorld=%1$s gahčai gomuvuhtii
 death.attack.player=%2$s gottii %1$s spealli
 death.attack.player.item=%2$s geavahii %3$s goddit %1$s
-death.attack.spit
+death.attack.spit=%1$s čolgaduvvui %2$s:s
 death.attack.starve=%1$s nealggui jámas
 death.attack.thorns=%1$s gottohallai go geahččalii sorbmet %2$s
 death.attack.thrown=%2$s bálkestii %1$s
 death.attack.thrown.item=%2$s geavahii %3$s bálkestit %1$s
-death.attack.trident
+death.attack.trident=%1$s čuggojuvvui %2$s:s ja jámii
 death.attack.wither=%1$s witheruvvui eret
 death.attack.freeze=%1$s galbmui jámas
 death.attack.stalactite=Gahčči stalakihtta čuggestii %1$s spealli
@@ -4939,7 +4939,7 @@ keyboard.keyName.grave.short=`
 keyboard.keyName.numLock.short=NUMLOHKKA
 keyboard.keyName.slash.short=/
 keyboard.keyName.semicolon.short=;
-keyboard.keyName.apostrophe.short
+keyboard.keyName.apostrophe.short='
 keyboard.keyName.comma.short=,
 keyboard.keyName.period.short=.
 keyboard.keyName.backslash.short=\
@@ -5933,7 +5933,7 @@ potion.nightVision=Idjaoaidnu
 potion.nightVision.postfix=Idjaoainnu noaidejugus
 potion.poison=Mirkohuvvon
 potion.poison.postfix=Mirkkolaš noaidejugus
-potion.potency.0
+potion.potency.0=
 potion.potency.1=II
 potion.potency.2=III
 potion.potency.3=IV
@@ -6246,7 +6246,7 @@ resourcePack.GreekMythology.description=Myhtalaš Greika lea suorbmagežiin
 resourcePack.Skyrim.name=Skyrim čoakkáldat
 resourcePack.Skyrim.description=Hukse iežat máilmmi Skyrima máilmmis.
 resourcePack.MashupAdventureTime.name=Fearánáigi
-resourcePack.MashupAdventureTime.description
+resourcePack.MashupAdventureTime.description=
 resourcePack.skin.name=Hámit
 resourcePack.skin.description=Hápmi, hápmi, hámit!!!
 resourcePack.invalid.description=Páhka ii sáhttán iskat. Geahča meattáhusaid boaluin.
@@ -6323,7 +6323,7 @@ selectWorld.gameMode.hardcore.line1=Seammalágan go iešbirgenvuohki, muhto lohk
 selectWorld.gameMode.hardcore.line2=váddámus váttisvuhtii ja ealát dušše oktii
 selectWorld.gameMode.spectator=Geahčči
 selectWorld.gameMode.spectator.line1=Sáhtát geahččat muhto it guoskat
-selectWorld.gameMode.spectator.line2
+selectWorld.gameMode.spectator.line2=
 selectWorld.gameMode.survival=Iešbirgen
 selectWorld.gameMode.survival.line1=Oza resurssaid, duddjo, ja čoakke
 selectWorld.gameMode.survival.line2=dásiid, ja vel lea heagga ja nealgi
@@ -7913,7 +7913,7 @@ worldConversionErrorReport.sending.complete=Sáddejupmi lihkostuvai
 worldConversionErrorReport.sending.completeMessage.part1=Giitu! Mii bargat nu jođánit go nagodit divodemiin ja eat sáhte vástidit makkárge gažaldagaid máilmmi birra. Dá lea guite mii duođašta ahte leat ožžon máilmmi:
 worldConversionErrorReport.sending.completeMessage.part2=Guite %s
 worldError.corrupted=lea billašuvvan dahje ii sáhte álggahuvvot.
-worldError.invalidArguments
+worldError.invalidArguments=lei ráhkaduvvon boasttu argumeanttain.
 worldError.IO=ii rahpas
 worldError.notFound=ii gávdno
 worldError.notSupported=lea formáhtas mii ii doalahuvvo.
@@ -8030,7 +8030,7 @@ autosave.info.xbox=Go oainnát dán govaža, de vurkejuvvo speallu. Ale fal jád
 autosave.info.desktop=Go oainnát dán govaža, de vurkejuvvo speallu. Ale fal jáddat dihtora go govaš oidno.
 xbox.signin.error=Čálit iežat Microsoft-geavaheddjiin, vai beasat olbmáiguin speallat, ánssášit čuoggáid ja olahusaid.
 xbox.signin.error.pocket.line1=Giitu go geahččaladdet Realms! Funkšuvnnat eai leat áibbas gárvásat, ja sáhtát vásihit boasttuovuođaid. Sáddes midjiide dávistusaid! Mii guldalit.
-xbox.signin.error.pocket.line2
+xbox.signin.error.pocket.line2=
 xbox.signin.error.pocket.line3=Dán geahččalanággis fertejit buohkat čálihit iežaset Microsoft-geavaheaddjái, muđui it oaččo bovdejumiid ja it sáhte lasihuvvot Realmii.
 xbox.connection.error=Oktavuohta botkejuvvui Microsoft-geavaheddjiin
 xbox.signin=Čálit sisa
@@ -8438,7 +8438,6 @@ hbui.CreateNewWorld.advanced.worldTypeInfiniteLabel=Nohkameahttun
 hbui.CreateNewWorld.advanced.worldTypeLimitedDescription=<Máilmmi tiipa čilgehus>
 hbui.CreateNewWorld.advanced.worldTypeLimitedLabel=Ráddjejuvvon
 hbui.CreateNewWorld.advanced.worldTypeTitle=Máilmmemálle
-hbui.CreateNewWorld.cheats.commandBlocksDescription
 hbui.CreateNewWorld.cheats.commandBlocksTitle=Kommándoblohkat
 hbui.CreateNewWorld.cheats.daylightCycleALwaysNoonDescription=Spealu áigi lohkkaduvvo gaskabeaivái
 hbui.CreateNewWorld.cheats.daylightCycleAlwaysNoonLabel=Álo gaskabeaivvi
