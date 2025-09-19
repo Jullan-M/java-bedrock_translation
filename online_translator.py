@@ -10,7 +10,7 @@ HEADERS = {
     "Content-Type": "application/json",
 }
 
-CONCURRENCY_LIMIT = 5  # Max concurrent requests
+CONCURRENCY_LIMIT = 8  # Max concurrent requests
 
 
 def neuro_translate(text, src_lang, tgt_lang):
@@ -70,9 +70,7 @@ async def translate_phrases(phrases, src_lang, tgt_lang):
         ]
 
         try:
-            translations = await tqdm_asyncio.gather(
-                *tasks, return_exceptions=True, desc="Translating"
-            )
+            translations = await tqdm_asyncio.gather(*tasks)
         except Exception as e:
             raise Exception(f"Translation error: {e}")
         return translations

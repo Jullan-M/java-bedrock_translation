@@ -31,7 +31,11 @@ class Ranked_Translations:
         if quality == 0:
             # If only 1 locale consists of translation, make color "Reddish".
             color = "FF" + color[2:]
-        elif rank != "EQUAL_LOWERCASE" and quality >= 1:
+            if color[2:4] == "FF":
+                color = color[:2] + "80" + color[4:]
+        elif quality == 1:
+            color = "FF" + color[2:]
+        elif rank != "EQUAL_LOWERCASE" and quality > 1:
             # If translation is consistent across 2 or more locales, then GREEN.
             color = "00FF00"
         elif quality > 1:
